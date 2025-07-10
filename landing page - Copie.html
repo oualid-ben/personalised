@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{nom}} - {{entreprise}}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #fafafa;
+            color: #1d1d1f;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header avec logo et nom entreprise */
+        .header {
+            padding: 30px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            opacity: 0;
+            animation: fadeInDown 1s ease-out 0.3s forwards;
+        }
+
+        .company-logo {
+            width: 60px;
+            height: 60px;
+            background: #f5f5f7;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #86868b;
+            font-weight: 600;
+            border: 1px solid #e8e8ed;
+        }
+
+        .company-name {
+            font-size: 28px;
+            font-weight: 600;
+            color: #1d1d1f;
+            letter-spacing: -0.5px;
+        }
+
+        /* Section principale */
+        .main-section {
+            text-align: center;
+            padding: 40px 0;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.6s forwards;
+        }
+
+        .headline {
+            font-size: clamp(40px, 6vw, 80px);
+            font-weight: 700;
+            color: #1d1d1f;
+            line-height: 1.1;
+            margin-bottom: 30px;
+            letter-spacing: -2px;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, #007aff, #5856d6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subheadline {
+            font-size: 24px;
+            color: #86868b;
+            font-weight: 400;
+            margin-bottom: 20px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Section vidéo */
+        .video-section {
+            margin: 20px 0;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.9s forwards;
+        }
+
+        .video-container {
+            background: #000;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            position: relative;
+            aspect-ratio: 16/9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .video-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            font-weight: 500;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .video-placeholder-text {
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .play-button:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            background: rgba(255,255,255,1);
+        }
+
+        .play-icon {
+            width: 0;
+            height: 0;
+            border-left: 24px solid #007aff;
+            border-top: 14px solid transparent;
+            border-bottom: 14px solid transparent;
+            margin-left: 6px;
+        }
+
+        /* Section calendrier */
+        .calendar-section {
+            margin: 40px 0;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 1.2s forwards;
+        }
+
+        .calendar-title {
+            font-size: 32px;
+            font-weight: 600;
+            color: #1d1d1f;
+            text-align: center;
+            margin-bottom: 30px;
+            letter-spacing: -1px;
+        }
+
+        .calendar-container {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            border: 1px solid #e8e8ed;
+            max-width: 800px;
+            margin: 0 auto;
+            min-height: 600px;
+        }
+
+        .calendar-placeholder {
+            padding: 60px 40px;
+            text-align: center;
+            color: #86868b;
+            font-size: 18px;
+        }
+
+        .calendar-embed {
+            width: 100%;
+            height: 600px;
+            border: none;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 16px;
+            }
+
+            .header {
+                padding: 20px 0;
+            }
+
+            .company-logo {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+
+            .company-name {
+                font-size: 24px;
+            }
+
+            .main-section {
+                padding: 30px 0;
+            }
+
+            .headline {
+                margin-bottom: 20px;
+            }
+
+            .subheadline {
+                font-size: 20px;
+                margin-bottom: 15px;
+            }
+
+            .video-section,
+            .calendar-section {
+                margin: 15px 0;
+            }
+
+            .calendar-title {
+                font-size: 28px;
+            }
+
+            .calendar-container {
+                border-radius: 20px;
+            }
+
+            .calendar-placeholder {
+                padding: 40px 20px;
+            }
+
+            .play-button {
+                width: 60px;
+                height: 60px;
+            }
+
+            .play-icon {
+                border-left: 18px solid #007aff;
+                border-top: 10px solid transparent;
+                border-bottom: 10px solid transparent;
+            }
+        }
+
+        /* Variables CSS pour personnalisation dynamique */
+        :root {
+            --primary-color: #007aff;
+            --secondary-color: #5856d6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header avec logo et nom d'entreprise -->
+        <div class="header">
+            <div class="company-logo" id="companyLogo">
+                <!-- Logo sera inséré ici -->
+            </div>
+            <div class="company-name" id="companyName">
+                {{entreprise}}
+            </div>
+        </div>
+
+        <!-- Section principale avec headline -->
+        <div class="main-section">
+            <h1 class="headline">
+                Bonjour <span class="highlight" id="personName">{{nom}}</span>
+            </h1>
+            <p class="subheadline" id="customMessage">
+                {{customMessage}}
+            </p>
+        </div>
+
+        <!-- Section vidéo -->
+        <div class="video-section">
+            <div class="video-container" id="videoContainer">
+                <div class="video-placeholder">
+                    <div class="video-placeholder-text">
+                        Vidéo personnalisée pour Zeliq<br>
+                        <small style="opacity: 0.7; font-size: 14px;">Cliquez pour lancer la vidéo</small>
+                    </div>
+                </div>
+                <div class="play-button" onclick="playVideo()">
+                    <div class="play-icon"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section calendrier -->
+        <div class="calendar-section">
+            <h2 class="calendar-title">
+                Réservez un créneau
+            </h2>
+            <div class="calendar-container">
+                <div class="calendar-placeholder" id="calendarPlaceholder">
+                    <!-- Calendrier Calendly sera intégré ici -->
+                    <p>Chargement du calendrier...</p>
+                </div>
+                <!-- Iframe Calendly sera inséré ici -->
+                <iframe id="calendarEmbed" class="calendar-embed" style="display: none;"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variables dynamiques à remplacer par votre workflow n8n
+        const pageData = {
+            nom: "Dorian",
+            entreprise: "Zeliq",
+            logo: "https://media.licdn.com/dms/image/v2/D560BAQH6nRL--ghi_g/company-logo_200_200/company-logo_200_200/0/1719413095416/zeliq_logo?e=2147483647&v=beta&t=Sq5r-G3W7rn4w6YSj5vuY0ILzGXgh1BY51UCWn-SRNo", // URL du logo
+            videoUrl: "https://www.youtube.com/watch?v=b7kxtIGaNpw", // URL de la vidéo personnalisée
+            calendlyUrl: "https://calendly.com/oualid-userprod/45min", // URL Calendly
+            customMessage: "Comment générer une experience ultra personnalisé en quelques minutes" // Message personnalisé
+        };
+
+        // Fonction pour personnaliser le contenu
+        function initializePage() {
+            // Récupérer les paramètres URL si disponibles, sinon utiliser pageData
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            const nom = urlParams.get('nom') || pageData.nom;
+            const entreprise = urlParams.get('entreprise') || pageData.entreprise;
+            const logo = urlParams.get('logo') || pageData.logo;
+            const videoUrl = urlParams.get('videoUrl') || pageData.videoUrl;
+            const calendlyUrl = urlParams.get('calendlyUrl') || pageData.calendlyUrl;
+            const customMessage = urlParams.get('customMessage') || pageData.customMessage;
+
+            // Mettre à jour le contenu
+            if (document.getElementById('personName')) {
+                document.getElementById('personName').textContent = nom;
+            }
+            if (document.getElementById('companyName')) {
+                document.getElementById('companyName').textContent = entreprise;
+            }
+            if (document.getElementById('companyNameInline')) {
+                document.getElementById('companyNameInline').textContent = entreprise;
+            }
+            
+            // Mettre à jour le message personnalisé
+            if (document.getElementById('customMessage')) {
+                document.getElementById('customMessage').innerHTML = customMessage;
+            }
+            
+            document.title = `${nom} - ${entreprise}`;
+
+            // Charger le logo
+            if (logo && logo !== '{{logo}}') {
+                const logoElement = document.getElementById('companyLogo');
+                logoElement.innerHTML = `<img src="${logo}" alt="${entreprise}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 16px;" onerror="this.parentElement.textContent='${entreprise.substring(0,2)}'">`;
+            } else {
+                // Utiliser les initiales de l'entreprise
+                const initials = entreprise.split(' ').map(word => word[0]).join('').substring(0, 2);
+                document.getElementById('companyLogo').textContent = initials;
+            }
+
+            // Charger le calendrier
+            if (calendlyUrl && calendlyUrl !== '{{calendlyUrl}}') {
+                loadCalendar(calendlyUrl);
+            }
+
+            // Stocker les données pour la vidéo
+            window.currentPageData = {
+                nom, entreprise, logo, videoUrl, calendlyUrl, customMessage
+            };
+        }
+
+        // Fonction pour charger le calendrier
+        function loadCalendar(url) {
+            const calendarEmbed = document.getElementById('calendarEmbed');
+            const placeholder = document.getElementById('calendarPlaceholder');
+            
+            // Convertir l'URL Calendly en format embed
+            let embedUrl = url;
+            if (url.includes('calendly.com') && !url.includes('embed')) {
+                embedUrl = url.replace('calendly.com/', 'calendly.com/embed/');
+            }
+            
+            calendarEmbed.src = embedUrl;
+            calendarEmbed.style.display = 'block';
+            placeholder.style.display = 'none';
+        }
+
+        // Fonction pour la vidéo
+        function playVideo() {
+            const videoContainer = document.getElementById('videoContainer');
+            const videoUrl = window.currentPageData ? window.currentPageData.videoUrl : pageData.videoUrl;
+            
+            if (videoUrl && videoUrl !== '{{videoUrl}}') {
+                // Gérer les URLs YouTube
+                if (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
+                    let videoId = '';
+                    if (videoUrl.includes('youtube.com/watch?v=')) {
+                        videoId = videoUrl.split('v=')[1];
+                        if (videoId.includes('&')) {
+                            videoId = videoId.split('&')[0];
+                        }
+                    } else if (videoUrl.includes('youtu.be/')) {
+                        videoId = videoUrl.split('youtu.be/')[1];
+                        if (videoId.includes('?')) {
+                            videoId = videoId.split('?')[0];
+                        }
+                    }
+                    
+                    if (videoId) {
+                        videoContainer.innerHTML = `
+                            <iframe width="100%" height="100%" 
+                                src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                allowfullscreen>
+                            </iframe>
+                        `;
+                    } else {
+                        console.error('Could not extract video ID from URL:', videoUrl);
+                        showVideoError();
+                    }
+                } else if (videoUrl.includes('vimeo.com')) {
+                    // Support Vimeo
+                    const vimeoId = videoUrl.split('/').pop();
+                    videoContainer.innerHTML = `
+                        <iframe width="100%" height="100%" 
+                            src="https://player.vimeo.com/video/${vimeoId}?autoplay=1" 
+                            frameborder="0" 
+                            allow="autoplay; fullscreen; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    `;
+                } else {
+                    // Vidéo MP4 directe
+                    videoContainer.innerHTML = `
+                        <video width="100%" height="100%" controls autoplay>
+                            <source src="${videoUrl}" type="video/mp4">
+                            <p style="color: white; text-align: center; padding: 20px;">
+                                Votre navigateur ne supporte pas la vidéo HTML5.
+                            </p>
+                        </video>
+                    `;
+                }
+            } else {
+                // Vidéo de démonstration par défaut
+                videoContainer.innerHTML = `
+                    <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #007aff, #5856d6); display: flex; align-items: center; justify-content: center; color: white;">
+                        <div style="text-align: center;">
+                            <h3 style="margin-bottom: 20px; font-size: 28px;">Vidéo personnalisée</h3>
+                            <p style="font-size: 18px; opacity: 0.9;">Votre vidéo personnalisée apparaîtra ici</p>
+                            <p style="font-size: 14px; opacity: 0.7; margin-top: 20px;">Configurez l'URL de la vidéo dans votre workflow</p>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function showVideoError() {
+            const videoContainer = document.getElementById('videoContainer');
+            videoContainer.innerHTML = `
+                <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #ff3b30, #ff9500); display: flex; align-items: center; justify-content: center; color: white;">
+                    <div style="text-align: center;">
+                        <h3 style="margin-bottom: 20px; font-size: 24px;">Erreur de chargement</h3>
+                        <p style="font-size: 16px; opacity: 0.9;">Impossible de charger la vidéo</p>
+                        <p style="font-size: 14px; opacity: 0.7; margin-top: 20px;">Vérifiez l'URL de la vidéo</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Initialiser la page au chargement
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+</body>
+</html>
